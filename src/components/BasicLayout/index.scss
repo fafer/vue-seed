@@ -1,0 +1,32 @@
+@import '~@/common/rem';
+
+.basic-layout {
+  padding: pxtorem(64px) 0;
+  .head {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: pxtorem(64px);
+    background-color: #e5e5e5;
+  }
+  .main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .footer {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: pxtorem(64px);
+    background-color: #e5e5e5;
+  }
+}

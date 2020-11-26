@@ -1,0 +1,131 @@
+/**
+ * rem.scss
+ * @description translate px to rem
+ * @author Mmzer
+ * @date 2016/09/09
+ * @translateTable:
+ *
+ *    html default font-size:16px
+ *        |  px  |     rem       |
+ *	      ------------------------
+ * 	      |  12  | 12/16 = .75   |
+ *	      |  14  | 14/16 = .875  |
+ *	      |  16  | 16/16 = 1     |
+ *	      |  18  | 18/16 = 1.125 |
+ *	      |  20  | 20/16 = 1.25  |
+ *	      |  24  | 24/16 = 1.5   |
+ *	      |  30  | 30/16 = 1.875 |
+ *	      |  36  | 36/16 = 2.25  |
+ *	      |  42  | 42/16 = 2.625 |
+ *	      |  48  | 48/16 = 3     |
+ *	      -------------------------
+ *
+ *	  html font-size:10px
+ *
+ *	     html{
+ *	     	   font-size:62.5%;  // 10/16 * 100% = 62.5%
+ *	     }
+ *
+ *	  	  |  px  |     rem        |
+ *		  -------------------------
+ *		  |  12  | 12/10 = 1.2    |
+ *		  |  16  | 16/10 = 1.6    |
+ *		  |  18  | 18/10 = 1.8    |
+ *		  |  20  | 20/10 = 2.0    |
+ *		  |  24  | 24/10 = 2.4    |
+ *		  |  36  | 36/10 = 3.6    |
+ *		  |  42  | 42/10 = 4.2    |
+ *		  |  48  | 48/10 = 4.8    |
+ *		  -------------------------
+ */
+
+$browser-default-font-size: 37.5px !default;
+
+@function strip-units($number) {
+  @return $number / ($number * 0 + 1);
+}
+
+/*
+  750的设计稿的话，标注尺寸/2
+*/
+@function pxtorem($px) {
+  @return strip-units($px) / strip-units($browser-default-font-size) * 1rem;
+}
+
+@function remtopx($rem) {
+  @return strip-units($rem) * strip-units($browser-default-font-size) * 1px;
+}
+
+@function mulpxtorem($mulpx) {
+  $max: length($mulpx);
+  $remValues:'';
+
+  @for $i from 1 through $max {
+    $value: strip-units(nth($mulpx, $i));
+    $browserSize: strip-units($browser-default-font-size);
+    $remValues: #{$remValues + $value / $browserSize}rem;
+
+    @if $i < $max {
+      $remValues: #{$remValues + ' '};
+    }
+  }
+
+  @return $remValues;
+}
+
+@function mulRemToPx($mulRem) {
+  $max: length($mulRem);
+  $remValues:'';
+
+  @for $i from 1 through $max {
+    $value: strip-units(nth($mulRem, $i));
+    $browserSize: strip-units($browser-default-font-size);
+    $pxValues: #{$pxValues + $value / $browserSize}px;
+
+    @if $i < $max {
+      $pxValues: #{$pxValues + ' '};
+    }
+  }
+
+  @return $pxValues;
+}
+
+@mixin remMixin($property,$values) {
+  #{$property}: mulpxtorem($values);
+}
+
+@mixin pxMixin($property,$values) {
+  #{$property}: mulremtopx($values);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  word-break: break-all;
+}
+
+$rem: 75;
+
+@function rem($value) {
+  @return (($value)/$rem) + rem;
+}
+
+$iPhoneXBottom: 68;
+
+@mixin iphoneXStyle() {
+  margin-bottom: rem($iPhoneXBottom);
+}
+
+//iPhone X适配
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .wrapper {
+    @include iphoneXStyle;
+  }
+}
+//iPhone XS适配
+@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
+  .wrapper {
+    @include iphoneXStyle;
+  }
+}
