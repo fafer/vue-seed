@@ -5,6 +5,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const webpack = require('webpack');
 
+function loader() {
+  return process.env.MOCK_DATA === 'mock'
+    ? [{ loader: 'mock-loader', options: { enable: true } }]
+    : [];
+}
+
 module.exports = {
   entry: conf.getEntry(),
   output: {
@@ -25,17 +31,11 @@ module.exports = {
       },
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
+        use: ['vue-loader', ...loader()],
       },
       {
         test: /\.js$/,
-        use: [
-          'babel-loader',
-          ...(() =>
-            process.env.MOCK_DATA === 'mock'
-              ? [{ loader: 'mock-loader', options: { enable: true } }]
-              : [])(),
-        ],
+        use: ['babel-loader', ...loader()],
       },
       {
         test: /\.s?css$/,

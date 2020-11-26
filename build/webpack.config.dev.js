@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const os = require('os');
 const argv = require('yargs').argv;
+const ssl = require('./https/createCertificate');
 let port;
 
 if (argv.https) {
