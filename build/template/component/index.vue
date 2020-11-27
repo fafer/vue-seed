@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <fragment></fragment>
 </template>
 <script>
 export default {
