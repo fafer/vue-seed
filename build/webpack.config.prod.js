@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const CommonConfig = require('./webpack.common.js');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtraHtmlWebpackPlugin = require('./plugins/extra-html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -41,7 +41,6 @@ module.exports = merge(CommonConfig, {
   optimization: {
     minimizer: [
       new TerserPlugin({
-        sourceMap: false,
         extractComments: false,
         terserOptions: {
           compress: {
@@ -71,7 +70,7 @@ module.exports = merge(CommonConfig, {
       return [];
     })(),
     ...htmlPlugin(),
-    new ManifestPlugin({
+    new WebpackManifestPlugin({
       basePath: conf.BASEPATH,
       generate(seed, files) {
         return files.reduce((manifest, { name, path, isChunk, chunk }) => {

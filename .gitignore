@@ -7,3 +7,4 @@
 /dist
 *.bak
 npm-debug.log
+vendor.js.LICENSE.txt
