@@ -95,7 +95,7 @@ chore：构建过程或辅助工具的变动
 5、 source ～/.bashrc、source ～/.profile、source ～/.zshrc
 ```
 
-### 下面就可以通过nvm来安装node版本
+### 通过nvm来安装node版本
 
 ```
 nvm install 12.18.3
